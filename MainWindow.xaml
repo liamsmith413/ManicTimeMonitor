@@ -9,7 +9,7 @@
     Height="32"
     Width="375"
     WindowStartupLocation="CenterScreen"
-    Background="Transparent"
+    Background="#1E1E1E"
     AllowsTransparency="True"
     Topmost="True"
     ShowInTaskbar="False"
@@ -17,6 +17,7 @@
     ResizeMode="NoResize">
 
     <Window.Resources>
+        <!-- Dark Mode Styles (No Light Colors) -->
         <Style x:Key="MonitorTextBlock" TargetType="{x:Type TextBlock}">
             <Setter Property="FontSize" Value="11"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -25,26 +26,78 @@
             <Setter Property="FontWeight" Value="Medium"/>
             <Setter Property="TextOptions.TextFormattingMode" Value="Ideal"/>
             <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+            <!-- Light gray text for readability -->
+        </Style>
+
+        <!-- Menu Item Style -->
+        <Style x:Key="MenuItemStyle" TargetType="MenuItem">
+            <Setter Property="Foreground" Value="#E5E5E5"/>
+            <Setter Property="Background" Value="#252525"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#3B3B3B"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Sub Menu Item Style -->
+        <Style x:Key="SubMenuItemStyle" TargetType="MenuItem">
+            <Setter Property="Foreground" Value="#E5E5E5"/>
+            <Setter Property="Background" Value="#252525"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="MenuItem">
+                        <Border x:Name="Border" 
+                                Background="{TemplateBinding Background}"
+                                Padding="5,3">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ContentPresenter Content="{TemplateBinding Header}" Margin="5,0"/>
+                                <Path x:Name="Checkmark"
+                                      Grid.Column="1"
+                                      Visibility="Collapsed"
+                                      Data="M 0,5.1 L 1.7,5.2 L 3.4,7.1 L 8,0.4 L 9.2,0 L 3.3,10.8 Z"
+                                      Fill="{TemplateBinding Foreground}"
+                                      Margin="10,0,0,0"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Border" Property="Background" Value="#000000"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="Checkmark" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
 
     <Window.ContextMenu>
         <ContextMenu Background="#252525" BorderBrush="#333333">
-            <MenuItem Header="Opacity" Foreground="#E5E5E5">
-                <MenuItem Header="100%" Tag="1.0" Click="Opacity_Click" Foreground="#E5E5E5"/>
-                <MenuItem Header="75%" Tag="0.75" Click="Opacity_Click" Foreground="#E5E5E5"/>
-                <MenuItem Header="50%" Tag="0.5" Click="Opacity_Click" Foreground="#E5E5E5"/>
-                <MenuItem Header="25%" Tag="0.25" Click="Opacity_Click" Foreground="#E5E5E5"/>
+            <MenuItem Header="Opacity" Style="{StaticResource MenuItemStyle}">
+                <MenuItem Header="100%" Tag="1.0" Click="Opacity_Click" Style="{StaticResource SubMenuItemStyle}"/>
+                <MenuItem Header="75%" Tag="0.75" Click="Opacity_Click" Style="{StaticResource SubMenuItemStyle}"/>
+                <MenuItem Header="50%" Tag="0.5" Click="Opacity_Click" Style="{StaticResource SubMenuItemStyle}"/>
+                <MenuItem Header="25%" Tag="0.25" Click="Opacity_Click" Style="{StaticResource SubMenuItemStyle}"/>
             </MenuItem>
-            <MenuItem Header="Always on Top"
-                      IsCheckable="True"
+            <MenuItem Header="Always on Top" 
+                      IsCheckable="True" 
                       IsChecked="True"
                       Click="AlwaysOnTop_Click"
-                      Foreground="#E5E5E5"/>
+                      Style="{StaticResource MenuItemStyle}"/>
             <Separator Background="#333333"/>
-            <MenuItem Header="Exit"
+            <MenuItem Header="About" 
+                      Click="AboutMenuItem_Click"
+                      Style="{StaticResource MenuItemStyle}"/>
+            <MenuItem Header="Exit" 
                       Click="ExitMenuItem_Click"
-                      Foreground="#E5E5E5"/>
+                      Style="{StaticResource MenuItemStyle}"/>
         </ContextMenu>
     </Window.ContextMenu>
 
@@ -91,13 +144,13 @@
                            Grid.Column="1"
                            Text="0%"
                            TextAlignment="Right"
-                           Style="{StaticResource MonitorTextBlock}"
+                           Style="{StaticResource MonitorTextBlock}" 
                            Foreground="#E5E5E5"/>
 
                 <!-- • -->
                 <TextBlock Grid.Column="2"
                            Text="•"
-                           Style="{StaticResource MonitorTextBlock}"
+                           Style="{StaticResource MonitorTextBlock}" 
                            Foreground="#3D3D3D"/>
 
                 <!-- RAM -->
@@ -106,26 +159,26 @@
                            Grid.Column="4"
                            Text="0 GB"
                            TextAlignment="Right"
-                           Style="{StaticResource MonitorTextBlock}"
+                           Style="{StaticResource MonitorTextBlock}" 
                            Foreground="#E5E5E5"/>
 
                 <!-- • -->
                 <TextBlock Grid.Column="5"
                            Text="•"
-                           Style="{StaticResource MonitorTextBlock}"
+                           Style="{StaticResource MonitorTextBlock}" 
                            Foreground="#3D3D3D"/>
 
                 <!-- Status -->
                 <TextBlock x:Name="StatusTextBlock"
                            Grid.Column="6"
                            Text="Unknown"
-                           Style="{StaticResource MonitorTextBlock}"
+                           Style="{StaticResource MonitorTextBlock}" 
                            Foreground="#00FF00"/>
 
                 <!-- • -->
                 <TextBlock Grid.Column="7"
                            Text="•"
-                           Style="{StaticResource MonitorTextBlock}"
+                           Style="{StaticResource MonitorTextBlock}" 
                            Foreground="#3D3D3D"/>
 
                 <!-- TIME -->
@@ -134,7 +187,7 @@
                            Grid.Column="9"
                            Text="0h 0m"
                            TextAlignment="Left"
-                           Style="{StaticResource MonitorTextBlock}"
+                           Style="{StaticResource MonitorTextBlock}" 
                            Foreground="#E5E5E5"/>
             </Grid>
         </Grid>

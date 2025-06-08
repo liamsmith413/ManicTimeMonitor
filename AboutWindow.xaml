@@ -1,0 +1,86 @@
+<Window x:Class="ManicTimeMonitor.AboutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About ManicTime Monitor"
+        Height="200"
+        Width="350"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="#1E1E1E"
+        WindowStyle="None">
+	<Border BorderBrush="#333333"
+            BorderThickness="1"
+            MouseLeftButtonDown="Border_MouseLeftButtonDown"
+            CornerRadius="8">
+		<Grid Margin="20">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+
+			<TextBlock Text="ManicTime Monitor"
+                     FontSize="18"
+                     FontWeight="Light"
+                     Foreground="#E5E5E5"
+                     Margin="0,0,0,15"/>
+
+			<TextBlock Grid.Row="1"
+                     TextWrapping="Wrap"
+                     Foreground="#B0B0B0"
+                     Text="A lightweight system tray application that monitors ManicTime's status and system resources. Features include auto-restart capability, system resource monitoring, and active time tracking."/>
+
+			<StackPanel Grid.Row="2" Margin="0,15,0,0">
+				<TextBlock Foreground="#7A7A7A"
+                         Text="Repository:"/>
+				<TextBlock x:Name="RepositoryLink"
+                         Foreground="#3B82F6"
+                         Cursor="Hand"
+                         MouseLeftButtonDown="RepositoryLink_MouseLeftButtonDown"
+                         Text="https://github.com/liamsmith413/ManicTimeMonitor"/>
+
+				<TextBlock Margin="0,10,0,0"
+                         Foreground="#7A7A7A"
+                         Text="© 2025 Liam Smith"/>
+			</StackPanel>
+
+			<Button Grid.Row="0"
+                    Content="×"
+                    Click="CloseButton_Click"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Width="20"
+                    Height="20"
+                    Margin="0,-10,-10,0"
+                    Foreground="#E5E5E5"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Cursor="Hand">
+				<Button.Style>
+					<Style TargetType="Button">
+						<Setter Property="Template">
+							<Setter.Value>
+								<ControlTemplate TargetType="Button">
+									<Border Background="{TemplateBinding Background}"
+                                            CornerRadius="2">
+										<ContentPresenter HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"/>
+									</Border>
+								</ControlTemplate>
+							</Setter.Value>
+						</Setter>
+						<Style.Triggers>
+							<Trigger Property="IsMouseOver" Value="True">
+								<Setter Property="Background" Value="#FF4444"/>
+								<Setter Property="Foreground" Value="White"/>
+							</Trigger>
+							<Trigger Property="IsPressed" Value="True">
+								<Setter Property="Background" Value="#CC3333"/>
+							</Trigger>
+						</Style.Triggers>
+					</Style>
+				</Button.Style>
+			</Button>
+		</Grid>
+	</Border>
+</Window>
